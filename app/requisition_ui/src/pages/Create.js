@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Create({editFormData, handleEditFormChange, handleUpdate, handleCancelClick ,optionsState}) {
+export default function Create({editFormData, handleEditFormChange, handleUpdate, handleSelectChange ,mid_txt , suggestions,onSuggestHandler}) {
   return (
   <div style={{
     position: 'fixed',
@@ -60,9 +60,17 @@ export default function Create({editFormData, handleEditFormChange, handleUpdate
                             value={editFormData.mat_desc} 
                             onChange={handleEditFormChange}></input>
 	</label>
-    <label  style={{margin:'1rem'}}>Material Group* : <input type="text" required="true" name="mat_grp" 
+    <label  style={{margin:'1rem'}}>Material Group* : 
+    {/* <input type="text" required="true" name="mat_grp" 
                             value={editFormData.mat_grp} 
-                            onChange={handleEditFormChange}></input>
+                            onChange={handleEditFormChange}></input> */}
+    <input type="text" onChange={e => handleSelectChange(e.target.value) } value={mid_txt}>
+    
+    </input>
+    {suggestions && suggestions.map((suggestions,i)=>
+    <div key= {i} onClick={()=>onSuggestHandler(suggestions.val)} style={{marginLeft:'7rem', border:'1px solid black', cursor:'pointer'}} className="col-md-8">{suggestions.val}</div>
+    )}
+
 	</label>
     <label  style={{marginLeft:'2rem'}}>Delivery Date : <input type="text" name="exp_date" 
                             value={editFormData.exp_date} 
@@ -88,7 +96,7 @@ export default function Create({editFormData, handleEditFormChange, handleUpdate
                             <select value={editFormData.cur} onChange={handleEditFormChange} name="cur">
                                 <option value="EUR"  label="EUR"/>
                                 <option value="USD"  label="USD" />
-                                <option value="PUR"  label="PUR" />
+                                <option value="PUR"  label="Pounds" />
                             </select>
 	</label>
     
@@ -100,4 +108,3 @@ export default function Create({editFormData, handleEditFormChange, handleUpdate
 
   );
 }
-
