@@ -8,8 +8,8 @@
     {
       "authenticationType": "none",
       "csrfProtection": false,
-      "source": "^/maps_destination_srv/(.*)$",
-      "destination": "maps_destination_srv",
+      "source": "^/purchasereq_destination_srv/(.*)$",
+      "destination": "purchasereq_destination_srv",
       "target": "$1"
     },
     {
