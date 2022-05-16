@@ -55,6 +55,31 @@ modules:
       buildpack: nodejs_buildpack
     requires:
       - name: purchasecap-db
+ - name: purchasecap-ui-deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+    - name: purchasecap_html_repo_host
+      parameters:
+        content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+      - artifacts:
+        - requisition_ui-content.zip
+        name: requisition_ui
+        target-path: resources/ 
+  - name: requisition_ui
+    type: html5
+    path: app/requisition_ui
+    build-parameters:
+      builder: custom
+      commands:
+      - npm install
+      - npm run build
+      supported-platforms: []
+    requires:
+      - name: uaa_maps     
 resources:
   - name: purchasecap-destination-service
     type: org.cloudfoundry.managed-service
