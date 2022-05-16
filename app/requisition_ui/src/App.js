@@ -16,6 +16,19 @@ const App = () => {
     const [homeSel, setHomeSel]=useState(true);
     const [createSel, setCreateSel]=useState(false);
     const [errorMessage, setErrorMessage] = useState(false);
+    const [mid_txt, setMid_txt] = useState("");
+    const [suggestions, setSuggestions]= useState([]);
+    const suggestionSet = [
+        {id:1, val:"ET"},
+        {id:2, val:"GID"},
+        {id:3, val:"MOUSE_GCM"},
+        {id:4, val:"HDI"},
+        {id:5, val:"IT"},
+        {id:6, val:"GP"},
+        {id:7, val:"EXT"},
+        {id:8, val:"HEAD_PHONES"}
+    ];
+
 
 const onHomePage = async () => {
     // const { data } = await instance.get("/Books/$count");
@@ -37,7 +50,6 @@ const onHomePage = async () => {
         "pur_grp":"",
         "exp_date":"",
         "mat_id":"",
-        "mat_grp":"",
         "qty":"",
         "uom":"",
         "price":"",
@@ -55,6 +67,30 @@ const onHomePage = async () => {
 
 };
 
+const handleSelectChange = (mid_txt) =>{
+
+    let matched = [];
+    if(mid_txt.length>0){
+        matched = suggestionSet.filter(suggestionSet =>{
+            const regex = new RegExp(mid_txt,'gi');
+            return suggestionSet.val.match(regex)
+        }
+
+        )
+
+    }
+    setSuggestions(matched);
+    setMid_txt(mid_txt);
+   
+    
+
+
+};
+const onSuggestHandler =(mid_txt)=>{
+    setMid_txt(mid_txt);
+    setSuggestions([]);
+};
+
 const handleEditFormSubmit = (event)=>{
     
       event.preventDefault();
@@ -67,7 +103,7 @@ const handleEditFormSubmit = (event)=>{
             pur_grp:editFormData.pur_grp,
             exp_date:editFormData.exp_date,
             mat_id:editFormData.mat_id,
-            mat_grp:editFormData.mat_grp,
+            mat_grp:mid_txt,
             qty:editFormData.qty,
             uom:editFormData.uom,
             price:editFormData.price,
@@ -87,7 +123,6 @@ const handleEditFormSubmit = (event)=>{
                 "req_name":"",
                 "pur_grp":"",
                 "exp_date":"",
-                "mat_id":"",
                 "mat_grp":"",
                 "qty":"",
                 "uom":"",
@@ -103,6 +138,7 @@ const handleEditFormSubmit = (event)=>{
           setCreateSel(false);
          
           setcreateForm(null);
+          setMid_txt("");
         //   setEditItemId(null);
         //   loadData(true);
     
@@ -132,10 +168,10 @@ const handleEditFormSubmit = (event)=>{
 
     <div>
  
-    <form onSubmit={handleEditFormSubmit}>
+    <form onSubmit={handleEditFormSubmit} style={{display:'flex', flexWrap:'wrap',justifyContent:'space-between'}}>
   <Fragment>
             {createForm ?
-            (<Create editFormData={editFormData} handleEditFormChange={handleEditFormChange}/>):(<MasterPage/>)
+            (<Create editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleSelectChange={handleSelectChange} mid_txt ={mid_txt} suggestions={suggestions} onSuggestHandler={onSuggestHandler}/>):(<MasterPage/>)
             }
 
 
@@ -157,4 +193,5 @@ const handleEditFormSubmit = (event)=>{
 };
 
 export default App;
+
 
